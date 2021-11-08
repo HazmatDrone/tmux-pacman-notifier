@@ -11,20 +11,22 @@ print_updates() {
 	local pac_sub="\#{pacman}"
 	local aur_sub="\#{aur}"
 	local combined_sub="\#{combined}"
+	mkdir /tmp/tmuxpacnotif
 
-	nb_pac=$(checkupdates | wc -l)
+	echo $(checkupdates | wc -l) > /tmp/tmuxpacnotif/pacman
 	if [ -x /usr/bin/yay ]; then
-		nb_aur=$(yay -Qua | wc -l)
+		echo $(yay -Qua | wc -l) > /tmp/tmuxpacnotif/aur
 	elif [ -x /usr/bin/trizen ]; then
-		nb_aur=$(trizen -Qua | wc -l)
+		echo $(trizen -Qua | wc -l) > /tmp/tmuxpacnotif/aur
 	elif [ -x /usr/bin/pacaur ]; then
-		nb_aur=$(pacaur -Qua | awk '$2 == "aur" {print $3 $4 $5 $6}' | wc -l)
+		echo $(pacaur -Qua | awk '$2 == "aur" {print $3 $4 $5 $6}' | wc -l) > /tmp/tmuxpacnotif/aur
 	elif [ -x /usr/bin/yaourt ]; then
-		nb_aur=$(yaourt -Qua | grep "^aur/" | wc -l)
+		echo $(yaourt -Qua | grep "^aur/" | wc -l) > /tmp/tmuxpacnotif/aur
 	else
-		nb_aur=0
+		echo 0 > /tmp/tmuxpacnotif/aur
 	fi
-
+	nb_pac=$(cat /tmp/tmuxpacnotif/pacman)
+	nb_aur=$(cat /tmp/tmuxpacnotif/aur)
 	nb_combined=$(($nb_pac + $nb_aur))
 	if [[ \
 	($nb_combined -gt 0 && $showon=="any") \

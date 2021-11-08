@@ -5,8 +5,10 @@ CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source "$CURRENT_DIR/helpers.sh"
 
 print_updates() {
-	echo "HELLO"
+	local format=$(get_tmux_option @forecast-format "%C+%t+%w")
 	local updates="$(checkupdates | wc -l)"
+
+	echo "HELLO WORLD"
 	if [[ updats > 0 ]]; then
 		echo updates
 	fi

@@ -4,12 +4,12 @@ CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 source "$CURRENT_DIR/helpers.sh"
 
-pacman_updates="#($CURRENT_DIR/getupdates.sh)"
-pacman_updates_interpolation_string="\#{getupdates}"
+getupdates="#($CURRENT_DIR/getupdates.sh)"
+getupdates_interpolation_string="\#{getupdates}"
 
 do_interpolation() {
 	local string="$1"
-	local interpolated="${string/$pacman_updates_interpolation_string/$pacman_updates}"
+	local interpolated="${string/$getupdates_interpolation_string/$getupdates}"
 	echo $interpolated
 }
 

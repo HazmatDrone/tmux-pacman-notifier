@@ -10,7 +10,7 @@ getupdates_interpolation_string="\#{getupdates}"
 do_interpolation() {
 	local string="$1"
 	local interpolated="${string/$getupdates_interpolation_string/$getupdates}"
-	echo $interpolated
+	echo "$interpolated"
 }
 
 update_tmux_option() {

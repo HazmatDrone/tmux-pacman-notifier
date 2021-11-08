@@ -12,7 +12,7 @@ print_updates() {
 	local aur_sub="\#{aur}"
 	local combined_sub="\#{combined}"
 
-	source fetchupdates.sh &
+	source "$CURRENT_DIR/fetchupdates.sh"
 
 	nb_pac=$(cat /tmp/tmuxpacnotif/pacman)
 	nb_aur=$(cat /tmp/tmuxpacnotif/aur)

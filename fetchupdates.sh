@@ -6,9 +6,9 @@ source "$CURRENT_DIR/helpers.sh"
 
 update_interval=$(get_tmux_option @pacman-update-interval 300)
 
-while true; do
+if [[ ! -d /tmp/tmuxpacnotif ]]; then mkdir /tmp/tmuxpacnotif; fi
 
-	if [[ -d FILE ]]; then mkdir /tmp/tmuxpacnotif; fi
+if [[ ! -f /tmp/tmuxpacnotif/aur || $(($(date +%s) - $(date +%s -r /tmp/tmuxpacnotif/aur))) -gt $update_interval ]]; then
 	echo $(checkupdates | wc -l) > /tmp/tmuxpacnotif/pacman
 	if [ -x /usr/bin/yay ]; then
 		echo $(yay -Qua | wc -l) > /tmp/tmuxpacnotif/aur
@@ -21,6 +21,4 @@ while true; do
 	else
 		echo 0 > /tmp/tmuxpacnotif/aur
 	fi
-
-	sleep $update_interval
-done
+fi

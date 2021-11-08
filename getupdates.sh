@@ -11,8 +11,8 @@ print_updates() {
 	local pac_sub="\#{pacman}"
 	local aur_sub="\#{aur}"
 	local combined_sub="\#{combined}"
-	mkdir /tmp/tmuxpacnotif
 
+	if [[ -d FILE ]]; then mkdir /tmp/tmuxpacnotif; fi
 	echo $(checkupdates | wc -l) > /tmp/tmuxpacnotif/pacman
 	if [ -x /usr/bin/yay ]; then
 		echo $(yay -Qua | wc -l) > /tmp/tmuxpacnotif/aur
@@ -25,6 +25,7 @@ print_updates() {
 	else
 		echo 0 > /tmp/tmuxpacnotif/aur
 	fi
+	
 	nb_pac=$(cat /tmp/tmuxpacnotif/pacman)
 	nb_aur=$(cat /tmp/tmuxpacnotif/aur)
 	nb_combined=$(($nb_pac + $nb_aur))

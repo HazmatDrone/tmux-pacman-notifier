@@ -5,7 +5,7 @@ CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source "$CURRENT_DIR/helpers.sh"
 
 getupdates="#($CURRENT_DIR/getupdates.sh)"
-getupdates_interpolation_string="\#{getupdates}"
+getupdates_interpolation_string="\#{pacman_updates}"
 
 do_interpolation() {
 	local string="$1"

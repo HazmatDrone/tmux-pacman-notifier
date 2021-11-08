@@ -12,20 +12,8 @@ print_updates() {
 	local aur_sub="\#{aur}"
 	local combined_sub="\#{combined}"
 
-	if [[ -d FILE ]]; then mkdir /tmp/tmuxpacnotif; fi
-	echo $(checkupdates | wc -l) > /tmp/tmuxpacnotif/pacman
-	if [ -x /usr/bin/yay ]; then
-		echo $(yay -Qua | wc -l) > /tmp/tmuxpacnotif/aur
-	elif [ -x /usr/bin/trizen ]; then
-		echo $(trizen -Qua | wc -l) > /tmp/tmuxpacnotif/aur
-	elif [ -x /usr/bin/pacaur ]; then
-		echo $(pacaur -Qua | awk '$2 == "aur" {print $3 $4 $5 $6}' | wc -l) > /tmp/tmuxpacnotif/aur
-	elif [ -x /usr/bin/yaourt ]; then
-		echo $(yaourt -Qua | grep "^aur/" | wc -l) > /tmp/tmuxpacnotif/aur
-	else
-		echo 0 > /tmp/tmuxpacnotif/aur
-	fi
-	
+	source fetchupdates.sh &
+
 	nb_pac=$(cat /tmp/tmuxpacnotif/pacman)
 	nb_aur=$(cat /tmp/tmuxpacnotif/aur)
 	nb_combined=$(($nb_pac + $nb_aur))
